@@ -1,0 +1,8 @@
+# 忽略 build 文件夹
+/build/
+/build/obj_dir/
+/build/*.o
+/build/*.d
+/build/*.cpp
+/build/*.h
+/build/*.mk
