@@ -1,0 +1,10 @@
+top=top
+
+a0 (SW2,SW3)
+a1 (SW4,SW5)
+a2 (SW6,SW7)
+a3 (SW8,SW9)
+
+s (SW0,SW1)
+
+y (LD0,LD1)
