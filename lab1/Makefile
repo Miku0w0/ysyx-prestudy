@@ -1,3 +1,4 @@
+# basic setting
 TOPNAME = top
 NXDC_FILES = constr/top.nxdc
 INC_PATH ?=
@@ -47,3 +48,23 @@ clean:
 	rm -rf $(BUILD_DIR)
 
 .PHONY: default all clean run
+
+# verilator simulate
+SIM_OBJ_DIR = $(BUILD_DIR)/sim_obj
+SIM_BIN = $(BUILD_DIR)/sim_top
+SIM_CSRCS = $(shell find ./csrc -name "*.c" -or -name "*.cc" -or -name "*.cpp")
+SIM_CSRCS += csrc/sim_main.cpp  # 仿真入口
+
+sim: $(VSRCS) $(SIM_CSRCS)
+	@mkdir -p $(SIM_OBJ_DIR)
+	$(VERILATOR) -cc --trace -O3 --x-assign fast --x-initial fast --noassert \
+		-top-module $(TOPNAME) $^ \
+		$(addprefix -CFLAGS , $(CXXFLAGS)) \
+		--Mdir $(SIM_OBJ_DIR) --exe csrc/sim_main.cpp -o $(SIM_BIN)
+	$(MAKE) -C $(SIM_OBJ_DIR) -f V$(TOPNAME).mk
+	$(SIM_BIN)
+
+
+# waveform
+wave:
+	gtkwave $(BUILD_DIR)/waveform.vcd
