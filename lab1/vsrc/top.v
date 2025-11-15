@@ -1,7 +1,7 @@
 module top(
 	input [1:0]x0,x1,x2,x3,
 	input [1:0]y,
-	output [1:0]f
+	output reg [1:0]f
 );
 	always@(*)begin
 		case (y)
@@ -9,7 +9,7 @@ module top(
 			2'b10 : f = x2;
 			2'b01 : f = x1;
 			2'b00 : f = x0;
-			defalut : f = 2'b00;
+			default : f = 2'b00;
 		endcase
 	end
 endmodule

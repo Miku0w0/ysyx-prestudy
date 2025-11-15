@@ -15,10 +15,10 @@ int main(int argc, char** argv){
     	tfp->open("build/waveform.vcd");  
 
 
-    	top->X0 = 0x00;
-    	top->X1 = 0x01;
-    	top->X2 = 0x02;
-    	top->X3 = 0x03;
+    	top->x0 = 0x00;
+    	top->x1 = 0x01;
+    	top->x2 = 0x02;
+    	top->x3 = 0x03;
     	
     	struct TestCase {
         uint8_t y;    // 控制信号Y
@@ -34,7 +34,7 @@ int main(int argc, char** argv){
     	
     	for (int i = 0; i < num_tests; i++) {
         // 设置当前测试用例的控制信号Y
-        top->Y = test_cases[i].y;
+        top->y = test_cases[i].y;
         
         // 评估设计（计算输出）
         top->eval();
