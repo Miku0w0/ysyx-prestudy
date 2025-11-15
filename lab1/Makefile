@@ -50,7 +50,7 @@ clean:
 .PHONY: default all clean run help lint
 
 # verilator simulate
-SIM_OBJ_DIR = $(BUILD_DIR)/sim_obj
+SIM_OBJ_DIR = $(BUILD_DIR)/sim_obj_dir
 SIM_BIN = $(abspath $(BUILD_DIR)/sim_top)  # 使用绝对路径
 SIM_CSRCS = $(shell find ./csrc -name "*.c" -or -name "*.cc" -or -name "*.cpp"| grep -v main.cpp)
 SIM_CSRCS += csrc/sim_main.cpp  # 仿真入口
