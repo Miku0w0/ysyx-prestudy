@@ -1,5 +1,15 @@
-module top(input [1:0]x0,x1,x2,x3,
+module top(
+	input [1:0]x0,x1,x2,x3,
 	input [1:0]y,
-	output [1:0]f);
-	assign f=(y==2'b11)?x3:(y==2'b10)?x2:(y==2'b01)?x1:(y==2'b00)?x0:2'b00;
+	output [1:0]f
+);
+	always@(*)begin
+		case (y)
+			2'b11 : f = x3;
+			2'b10 : f = x2;
+			2'b01 : f = x1;
+			2'b00 : f = x0;
+			defalut : f = 2'b00;
+		endcase
+	end
 endmodule
