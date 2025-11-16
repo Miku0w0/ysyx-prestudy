@@ -1,13 +1,10 @@
 top=top
 
 a (SW3, SW2, SW1, SW0)
-
 b (SW7, SW6, SW5, SW4)
+ctrl (SW11, SW10, SW9)
 
-ctrl (SW10, SW9, SW8)
-
-res (LD3, LD2, LD1, LD0)
-
-car LD4
-
-of LD5
+res (LD7, LD6, LD5, LD4)
+zero (LD2)
+overflow LD1
+carry LD0
