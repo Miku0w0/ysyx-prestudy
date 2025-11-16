@@ -23,7 +23,7 @@ always@(*) begin
         begin
           temp = ((4'b1111) ^ b) + 1;
           {carry, res} = a + temp;
-          overflow = (a[3] == b[3])&&(res[3] != a[3]);
+          overflow = (a[3] != b[3])&&(res[3] != a[3]);
         end
       3'b010:
         begin
