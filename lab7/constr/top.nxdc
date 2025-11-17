@@ -1,5 +1,7 @@
 top=top
 
+rst_n SW0
+
 ps2_clk (PS2_CLK)
 ps2_data (PS2_DAT)
 

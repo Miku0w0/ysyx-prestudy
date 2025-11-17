@@ -6,7 +6,7 @@ module count(
 );
 
     always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
+        if (rst_n) begin
             key_count <= 8'h00;   // BCD 00
         end else if (key_press_edge) begin
 

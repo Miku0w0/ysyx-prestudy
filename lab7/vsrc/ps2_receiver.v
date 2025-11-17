@@ -27,7 +27,7 @@ module ps2_receiver(
 
     // PS/2数据接收逻辑
     always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
+        if (rst_n) begin
             ps2_buffer <= 10'd0;
             ps2_count <= 4'd0;
             key_code <= 8'd0;
