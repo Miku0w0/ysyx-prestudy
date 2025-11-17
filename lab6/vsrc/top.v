@@ -1,27 +1,36 @@
 module top(
-    input clk,
-    input rst,
-    input [7:0] i_sed,
-    input       i_rand_flag,
-    output [7:0] o_seg_1,
-    output [7:0] o_seg_0,
-    output [7:0] o_led,
-    output       o_rand_flag
+    input wire clk,
+    input wire reset_n,
+    input wire button,
+    output wire [6:0] hex0,
+    output wire [6:0] hex1
 );
 
-    lfsr u0_lfsr(
-        .clk(clk), 
-        .rst(rst), 
-        .i_sed(i_sed), 
-        .i_rand_flag(i_rand_flag), 
-        .o_rand(o_led)
+    wire btn_pulse;
+    wire [7:0] lfsr_reg;
+
+    debounce u_debounce (
+        .clk(clk),
+        .reset_n(reset_n),
+        .button(button),
+        .btn_pulse(btn_pulse)
     );
 
-    seg_hex u0_seg_hex(
-        .i_seg(o_led),
-        .o_seg_0(o_seg_0),
-        .o_seg_1(o_seg_1)
+    lfsr u_lfsr (
+        .clk(clk),
+        .reset_n(reset_n),
+        .btn_pulse(btn_pulse),
+        .lfsr_reg(lfsr_reg)
     );
 
-    assign o_rand_flag = i_rand_flag;
+    hex_to_7seg u_hex0 (
+        .hex_digit(lfsr_reg[3:0]),
+        .segments(hex0)
+    );
+
+    hex_to_7seg u_hex1 (
+        .hex_digit(lfsr_reg[7:4]),
+        .segments(hex1)
+    );
+
 endmodule

@@ -1,42 +1,27 @@
 module seg(
-    input [3:0] i_seg,
-    output reg [7:0] o_seg
+    input [3:0] data,
+    output reg [6:0] seg
 );
-    parameter num0 = 8'b1111_1100;
-    parameter num1 = 8'b0110_0000;
-    parameter num2 = 8'b1101_1010;
-    parameter num3 = 8'b1111_0010;
-    parameter num4 = 8'b0110_0110;
-    parameter num5 = 8'b1011_0110;
-    parameter num6 = 8'b1011_1110;
-    parameter num7 = 8'b1110_0000;
-    parameter num8 = 8'b1111_1110;
-    parameter num9 = 8'b1111_0110;
-    parameter numa = 8'b1110_1110;
-    parameter numb = 8'b0011_1110;
-    parameter numc = 8'b1001_1100;
-    parameter numd = 8'b0111_1010;
-    parameter nume = 8'b1001_1110;
-    parameter numf = 8'b1000_1110;
-    
-    always @(i_seg) begin
-        case(i_seg)
-            4'd0 : o_seg = ~num0;
-            4'd1 : o_seg = ~num1;
-            4'd2 : o_seg = ~num2;
-            4'd3 : o_seg = ~num3;
-            4'd4 : o_seg = ~num4;
-            4'd5 : o_seg = ~num5;
-            4'd6 : o_seg = ~num6;
-            4'd7 : o_seg = ~num7;
-            4'd8 : o_seg = ~num8;
-            4'd9 : o_seg = ~num9;
-            4'd10: o_seg = ~numa;
-            4'd11: o_seg = ~numb;
-            4'd12: o_seg = ~numc;
-            4'd13: o_seg = ~numd;
-            4'd14: o_seg = ~nume;
-            4'd15: o_seg = ~numf;
+
+    always @(*) begin
+        case (data)
+            4'h0: seg = 7'b0000001;  // 0
+            4'h1: seg = 7'b1001111;  // 1
+            4'h2: seg = 7'b0010010;  // 2
+            4'h3: seg = 7'b0000110;  // 3
+            4'h4: seg = 7'b1001100;  // 4
+            4'h5: seg = 7'b0100100;  // 5
+            4'h6: seg = 7'b0100000;  // 6
+            4'h7: seg = 7'b0001111;  // 7
+            4'h8: seg = 7'b0000000;  // 8
+            4'h9: seg = 7'b0000100;  // 9
+            4'hA: seg = 7'b0001000;  // A
+            4'hB: seg = 7'b1100000;  // b
+            4'hC: seg = 7'b0110001;  // C
+            4'hD: seg = 7'b1000010;  // d
+            4'hE: seg = 7'b0110000;  // E
+            4'hF: seg = 7'b0111000;  // F
+            default: seg = 7'b1111111; // 全灭
         endcase
     end
 endmodule
