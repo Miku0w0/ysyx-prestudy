@@ -2,8 +2,8 @@ module top(
     input wire clk,
     input wire reset_n,
     input wire button,
-    output wire [6:0] hex0,
-    output wire [6:0] hex1
+    output wire [6:0] seg0,
+    output wire [6:0] seg1
 );
 
     wire btn_pulse;
@@ -25,12 +25,12 @@ module top(
 
     hex_to_7seg u_hex0 (
         .hex_digit(lfsr_reg[3:0]),
-        .segments(hex0)
+        .segments(seg0)
     );
 
     hex_to_7seg u_hex1 (
         .hex_digit(lfsr_reg[7:4]),
-        .segments(hex1)
+        .segments(seg1)
     );
 
 endmodule
