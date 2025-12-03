@@ -6,7 +6,7 @@ module count(
 );
 
     always @(posedge clk or negedge rst_n) begin
-        if (rst_n) begin
+        if (!rst_n) begin
             key_count <= 8'h00;   // BCD 00
         end 
         else if (key_press_edge) begin
@@ -14,7 +14,7 @@ module count(
             if (key_count[3:0] < 4'd9) begin  
                 key_count[3:0] <= key_count[3:0] + 4'd1;
             end 
-            // 处理十位
+            // 个位清零，处理十位
             else begin  
                 key_count[3:0] <= 4'd0;  // 清零
                 if (key_count[7:4] < 4'd9)

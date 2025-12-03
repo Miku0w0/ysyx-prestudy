@@ -16,7 +16,7 @@ module top(
     wire [7:0] key_count;
     wire [7:0] ascii_code;
     wire [7:0] key_code;
-    // wire key_press;
+    wire key_press; // 状态信号，0松开，1按下
     wire key_press_edge;
 
     // 按键计数模块实例化
@@ -39,7 +39,7 @@ module top(
         .ps2_clk(ps2_clk),
         .ps2_data(ps2_data),
         .key_code(key_code),
-        .key_press(),
+        .key_press(key_press),
         .key_press_edge(key_press_edge)
     );
 
@@ -47,31 +47,37 @@ module top(
     // 数码管显示编码模块实例化
     seg u_seg1 (
         .data(key_code[3:0]),
+        .en(key_press),
         .seg(seg0)
     );
 
     seg u_seg2 (
         .data(key_code[7:4]),
+        .en(key_press),
         .seg(seg1)
     );
 
     seg u_seg3 (
         .data(ascii_code[3:0]),
+        .en(key_press),
         .seg(seg2)
     );
 
     seg u_seg4 (
         .data(ascii_code[7:4]),
+        .en(key_press),
         .seg(seg3)
     );
 
     seg u_seg5 (
         .data(key_count[3:0]),
+        .en(1'b1),
         .seg(seg4)
     );
 
     seg u_seg6 (
         .data(key_count[7:4]),
+        .en(1'b1),
         .seg(seg5)
     );
 

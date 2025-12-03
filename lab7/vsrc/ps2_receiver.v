@@ -1,6 +1,6 @@
 module ps2_receiver(
     input wire clk,                 // 系统时钟
-    input wire rst_n,               // 复位信号
+    input wire rst_n,               // 低位有效复位信号
     input wire ps2_clk,             // PS/2时钟信号
     input wire ps2_data,            // PS/2数据线
 
@@ -27,17 +27,17 @@ module ps2_receiver(
 
     // PS/2数据接收逻辑 : 校验 + F0 break 处理 + 边沿输出
     always @(posedge clk or negedge rst_n) begin
-        // SW0清零时刻
-        if (rst_n) begin
+        // 复位
+        if (!rst_n) begin
             ps2_buffer <= 10'd0;
             ps2_count <= 4'd0;
             key_code <= 8'd0;
-            key_press_reg <= 1'b0;
+            key_press_reg <= 1'b0; // 默认电平为0
             prev_code <= 8'd0;
-            break_flag <= 1'b0;
+            break_flag <= 1'b0;    // 默认没有断码
             key_press_edge <= 1'b0;
         end 
-        // 默认无按下边沿，未清零时刻
+        // 处理输入
         else begin
             key_press_edge <= 1'b0;  
             // 若有采样为下降边沿
@@ -50,20 +50,23 @@ module ps2_receiver(
                         prev_code <= ps2_buffer[8:1];
                         // 检测断码(0xF0)，表示按键松开
                         if (ps2_buffer[8:1] == 8'hF0) begin
-                            break_flag <= 1'b1;
-                            key_press_reg <= 1'b0;  //按键松开  
+                            break_flag <= 1'b1;         // 检测到断码
+                            key_press_reg <= 1'b0;      // 松开  
                         end 
-                        // 如果收到断码后的扫描码，表示按键松开
+                        // 断码后的扫描码
                         else begin
                             if (break_flag) begin
-                                break_flag <= 1'b0;
-                                key_press_reg <= 1'b0;  // 按键松开
+                                break_flag <= 1'b0;     // 清楚标志位
+                                key_press_reg <= 1'b0;  // 松开
                             end 
-                            // 正常按键按下，会产生一个边沿信号
-                            else begin
-                                key_code <= ps2_buffer[8:1];
-                                key_press_reg <= 1'b1;  // 按键按下
-                                key_press_edge <= 1'b1; // 产生按下边沿
+                            // 正常按键按下，产生边沿信号
+                            else begin 
+                                // 按下
+                                if(!key_press_reg)begin
+                                    key_code <= ps2_buffer[8:1];
+                                    key_press_reg <= 1'b1;  // 置1
+                                    key_press_edge <= 1'b1; // 置1
+                                end
                             end
                         end
                     end
@@ -74,6 +77,7 @@ module ps2_receiver(
                     ps2_count <= ps2_count + 4'd1;
                 end
             end
+            key_press <= key_press_reg; // 最后更新按键按下 keypress
         end
     end
 endmodule
